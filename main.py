@@ -3,22 +3,25 @@ import random as rd
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-NUMBER_OF_DOTS = 50
+NUMBER_OF_DOTS = 10
 
 class Ball():
-    SIZE = 30
+    SIZE = 50
     def __init__(self, x, y):
         self.x = x
         self.y = y
         
     def draw(self):
         draw.circle(screen, (0, 0, 0), (self.x, self.y), Ball.SIZE)
+        
+    def clear(self):
+        draw.circle(screen, (255, 255, 255), (self.x, self.y), Ball.SIZE)
     def move(self, vx, vy):
         self.x += vx
         self.y += vy
 
 class Dot():
-    SIZE = 10  
+    SIZE = 20
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -34,9 +37,14 @@ def random_color():
     return (r, g, b)
 
 def pick_up(ball, dot):
-    if (ball.x + ball.SIZE >= dot.x - dot.SIZE and ball.x - ball.SIZE <= dot.x - dot.SIZE)\
-          and (ball.y - ball.SIZE <= dot.y - dot.SIZE  and ball.y + ball.SIZE >= dot.y + dot.SIZE):
-        print("boom")
+    ball_size = (int)(Ball.SIZE - (Ball.SIZE/8))
+    ball_rect = Rect( ball.x - ball_size , ball.y - ball_size , ball_size*2, ball_size*2)
+    dot_rect = Rect( dot.x - dot.SIZE , dot.y - dot.SIZE , dot.SIZE*2, dot.SIZE*2)
+    
+
+    if ball_rect.colliderect(dot_rect)>0:
+        return True
+    if dot_rect.colliderect(ball_rect)>0:
         return True
     return False
 
@@ -56,6 +64,7 @@ for i in range(NUMBER_OF_DOTS):
 
 while True:
     screen.fill((255, 255, 255))
+    
     keys=key.get_pressed()
 
     for events in event.get():
@@ -73,10 +82,10 @@ while True:
         ball.move(0,+1)
 
     for dot in dots:
-        dot.draw()
-        
-        if pick_up(ball, dot):
+        if pick_up(ball, dot): # if dot in range ball
                 dots.remove(dot)
+        dot.draw()
+
 
     ball.draw()
     display.update()
