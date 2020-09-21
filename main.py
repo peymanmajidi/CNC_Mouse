@@ -3,10 +3,10 @@ import random as rd
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-NUMBER_OF_DOTS = 10
+NUMBER_OF_DOTS = 100
 
 class Ball():
-    SIZE = 50
+    SIZE = 25
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -21,7 +21,7 @@ class Ball():
         self.y += vy
 
 class Dot():
-    SIZE = 20
+    SIZE = 7
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -84,6 +84,7 @@ while True:
     for dot in dots:
         if pick_up(ball, dot): # if dot in range ball
                 dots.remove(dot)
+                Ball.SIZE+=1
         dot.draw()
 
 
