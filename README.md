@@ -1,3 +1,3 @@
 # CNC_Mouse
 
-![shot](shot.png)
+![shot](preview.gif)
